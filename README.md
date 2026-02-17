@@ -1,97 +1,96 @@
-<div>
-  <h1>📈 Custom Strategy Indicators V3</h1>
-  <p>Technical indicators are essential in 📈 stock market analysis and trading. They provide insights into price trends, momentum, and market sentiment, guiding informed decision-making. Proficiency in these indicators is vital for success in the dynamic and competitive financial markets.<p>
-</div>
+# Pine Strategy Indicators v7
 
-## 📈 Indicators Included
+## Overview
 
-The following indicators are included in this repository:
+A collection of five technical indicators for TradingView, implemented in Pine Script (v5/v6). These indicators provide analysis tools for measuring market momentum, trend direction, and price strength across multiple timeframes.
 
-- 💡 Balance of Power
-- 🌐 McGinley Dynamic
-- ⚛️ Relative Vigor Index
-- 🌿 Vortex Indicator
-- ⚙️ Woodies CCI
+## Included Indicators
 
-## 📋 Indicator Descriptions
+### Balance of Power
 
-### Balance of Power 💡
+**Purpose:** Measures the strength of buying versus selling pressure in the market.
+
+**Core Logic:** Calculates the ratio of price change (close - open) to the trading range (high - low) for each period. Values oscillate around zero, with positive values indicating buyer dominance and negative values indicating seller dominance.
+
+**Key Parameters:**
+- None (uses default OHLC values)
+
 ![Balance of Power](images/Balance-of-Power.png)
 
-The Balance of Power (BOP) indicator measures the strength of buyers versus sellers. It calculates the balance between demand and supply by comparing price movements within a specific period.
+**Typical Use Case:** Identifying market strength and potential reversals by observing divergences between price and BOP values. Effective when combined with trend-following indicators.
 
-#### Use Case 📈
-- Utilize BOP to gauge market strength and potential reversals.
-- Combine it with trend indicators to enhance accuracy.
+---
 
-#### How to Use 📋
-1. **Installation**: Add the Balance of Power indicator to your preferred trading platform (e.g., TradingView).
-2. **Configuration**: Adjust the look-back period to align with your strategy.
-3. **Interpretation**: Positive BOP values indicate buying pressure, while negative values suggest selling pressure.
+### McGinley Dynamic
 
-### McGinley Dynamic 🌐
+**Purpose:** Adaptive moving average that adjusts smoothing based on market speed.
+
+**Core Logic:** Uses a self-adjusting mechanism that modifies the smoothing factor based on the ratio of price to the previous indicator value. The formula incorporates a fourth-power adjustment: `mg[1] + (source - mg[1]) / (length * (source/mg[1])^4)`.
+
+**Key Parameters:**
+- **Length:** Period for calculation (default: 14, min: 1)
+
 ![McGinley Dynamic](images/McGinley-Dynamic.png)
 
-The McGinley Dynamic is a smoothing indicator that adjusts to market conditions. Unlike traditional moving averages, it reduces lag in volatile markets and stays close to the price during less volatile periods.
+**Typical Use Case:** Trend identification with reduced lag compared to traditional moving averages. Price crossing above/below the line signals potential trend changes. Overlay on price chart for dynamic support/resistance levels.
 
-#### Use Case 📈
-- Use McGinley Dynamic to identify trend direction with minimal lag.
-- Combine it with oscillators for confirmation.
+---
 
-#### How to Use 📋
-1. **Installation**: Add the McGinley Dynamic indicator to your trading platform.
-2. **Configuration**: Adjust the smoothing factor to suit your trading style.
-3. **Interpretation**: Observe price crossover with the McGinley Dynamic to identify trend changes.
+### Relative Vigor Index
 
-### Relative Vigor Index ⚛️
+**Purpose:** Measures the conviction of a price trend by comparing close-open range to high-low range.
+
+**Core Logic:** Applies symmetrically weighted moving average (SWMA) to the difference between close-open and high-low values, then sums over the specified period. Generates a main line and signal line (SWMA of the main line).
+
+**Key Parameters:**
+- **Length:** Period for RVI calculation (default: 10, min: 1)
+- **Offset:** Display offset in bars (default: 0, range: -500 to 500)
+
 ![Relative Vigor Index](images/Relative-Vigor-Index.png)
 
-The Relative Vigor Index (RVI) measures the conviction of a trend by comparing closing and opening prices over a given period. It generates a line that oscillates around a central line.
+**Typical Use Case:** Confirming trend direction and spotting potential reversals. Crossovers between the RVI line and signal line generate trading signals. Most effective in trending markets.
 
-#### Use Case 📈
-- Use RVI to confirm trend direction.
-- Pair it with momentum indicators for better precision.
+---
 
-#### How to Use 📋
-1. **Installation**: Add the RVI indicator to your trading platform.
-2. **Configuration**: Adjust the period length to match your analysis timeframe.
-3. **Interpretation**: Crossovers between the RVI and its signal line may indicate potential buy or sell opportunities.
+### Vortex Indicator
 
-### Vortex Indicator 🌿
+**Purpose:** Identifies trend initiation and measures trend strength using positive and negative vortex movements.
+
+**Core Logic:** Calculates two directional movements: VI+ (upward vortex from high to prior low) and VI- (downward vortex from low to prior high). Each is normalized by the sum of true ranges over the period.
+
+**Key Parameters:**
+- **Length:** Look-back period for calculation (default: 14, min: 2)
+
 ![Vortex Indicator](images/Vortex-Indicator.png)
 
-The Vortex Indicator identifies trend direction and strength by analyzing highs, lows, and closing prices. It consists of two lines (VI+ and VI-) that indicate bullish and bearish trends, respectively.
+**Typical Use Case:** Detecting trend changes when VI+ crosses above VI- (bullish signal) or below (bearish signal). Strength of divergence between the lines indicates trend momentum.
 
-#### Use Case 📈
-- Use the Vortex Indicator to detect trend reversals.
-- Combine it with support/resistance levels for entry and exit points.
+---
 
-#### How to Use 📋
-1. **Installation**: Add the Vortex Indicator to your trading platform.
-2. **Configuration**: Set the indicator's period length to align with your strategy.
-3. **Interpretation**: A crossover of VI+ above VI- suggests a bullish trend, and vice versa.
+### Woodies CCI
 
-### Woodies CCI ⚙️
+**Purpose:** Enhanced Commodity Channel Index implementation with dual timeframes and histogram visualization.
+
+**Core Logic:** Plots two CCI calculations simultaneously—a fast "turbo" CCI and a standard 14-period CCI. Histogram colors change based on whether the last five CCI 14 values are all positive (teal) or all negative (red).
+
+**Key Parameters:**
+- **CCI Turbo Length:** Fast CCI period (default: 6, range: 3-14)
+- **CCI 14 Length:** Standard CCI period (default: 14, range: 7-20)
+
 ![Woodies CCI](images/Woodies-CCI.png)
 
-Woodies CCI (Commodity Channel Index) is a variation of the traditional CCI, used for identifying trends and overbought/oversold conditions. It incorporates pattern recognition for additional trading insights.
+**Typical Use Case:** Identifying overbought/oversold conditions and trend direction. Values above +100 suggest bullish momentum, below -100 suggest bearish momentum. Zero-line crosses indicate potential trend changes.
 
-#### Use Case 📈
-- Apply Woodies CCI to identify trend reversals and entry/exit points.
-- Combine it with moving averages for added confirmation.
+---
 
-#### How to Use 📋
-1. **Installation**: Add the Woodies CCI indicator to your trading platform.
-2. **Configuration**: Use default settings or customize the look-back period as per your strategy.
-3. **Interpretation**: Values above 100 indicate an uptrend, while values below -100 suggest a downtrend.
+## How to Use
 
-## 🚀 Usage and Instructions
+1. Open TradingView and navigate to the Pine Editor
+2. Copy the desired indicator code from the `indicators/` folder
+3. Paste into a new Pine Editor tab
+4. Click "Add to Chart" to apply the indicator
+5. Adjust parameters through the indicator settings menu as needed
 
-To use these indicators:
-1. Open the TradingView Pine Script editor.
-2. Copy the Pine Script code of the desired indicator from this repository.
-3. Paste the code in the Pine Script editor.
-4. Customize the indicator's parameters as needed.
-5. Apply the indicator to your chart to visualize its signals.
+## Disclaimer
 
-Feel free to explore, modify, and integrate these indicators into your trading strategies. Happy trading!
+These indicators are provided for educational purposes only. They are not financial advice. Past performance does not guarantee future results. Always conduct thorough analysis and risk management before making trading decisions.
