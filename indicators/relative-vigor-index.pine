@@ -1,0 +1,11 @@
+//@version=6
+indicator("Relative Vigor Index", "RVGI", overlay = false, format = format.price, precision = 4, timeframe = "", timeframe_gaps = true)
+
+length = input.int(10, "Length", minval = 1)
+offset = input.int(0, "Offset", minval = -500, maxval = 500)
+
+rvgi = math.sum(ta.swma(close - open), length) / math.sum(ta.swma(high - low), length)
+signal = ta.swma(rvgi)
+
+plot(rvgi, "RVGI", #008000, offset = offset)
+plot(signal, "Signal", #FF0000, offset = offset)

@@ -1,96 +1,96 @@
 # Pine Strategy Indicators v7
 
-## Overview
+Five open-source TradingView indicators written in Pine Script v6: Balance of Power, McGinley Dynamic, Relative Vigor Index, Vortex Indicator and Woodies CCI. Part of [GAINZ](https://gainz-trading-indicators.vercel.app), 35 indicators across seven collections.
 
-A collection of five technical indicators for TradingView, implemented in Pine Script (v5/v6). These indicators provide analysis tools for measuring market momentum, trend direction, and price strength across multiple timeframes.
+| Indicator                                     | Type     | Script                                                              |
+| --------------------------------------------- | -------- | ------------------------------------------------------------------- |
+| [Balance of Power](#balance-of-power)         | Momentum | [`balance-of-power.pine`](indicators/balance-of-power.pine)         |
+| [McGinley Dynamic](#mcginley-dynamic)         | Trend    | [`mcginley-dynamic.pine`](indicators/mcginley-dynamic.pine)         |
+| [Relative Vigor Index](#relative-vigor-index) | Momentum | [`relative-vigor-index.pine`](indicators/relative-vigor-index.pine) |
+| [Vortex Indicator](#vortex-indicator)         | Trend    | [`vortex-indicator.pine`](indicators/vortex-indicator.pine)         |
+| [Woodies CCI](#woodies-cci)                   | Momentum | [`woodies-cci.pine`](indicators/woodies-cci.pine)                   |
 
-## Included Indicators
+## Balance of Power
 
-### Balance of Power
+![Balance of Power](images/balance-of-power.png)
 
-**Purpose:** Measures the strength of buying versus selling pressure in the market.
+Close minus open, divided by high minus low: a bar-by-bar score of who was in control, buyers or sellers.
 
-**Core Logic:** Calculates the ratio of price change (close - open) to the trading range (high - low) for each period. Values oscillate around zero, with positive values indicating buyer dominance and negative values indicating seller dominance.
+Above zero, buyers pushed price up through the bar; below zero, sellers did. The longer it stays on one side, the clearer the winner.
 
-**Key Parameters:**
-- None (uses default OHLC values)
+| Setting | Default           |
+| ------- | ----------------- |
+| Formula | (C − O) / (H − L) |
 
-![Balance of Power](images/Balance-of-Power.png)
+Based on TradingView's built-in Balance of Power indicator.
 
-**Typical Use Case:** Identifying market strength and potential reversals by observing divergences between price and BOP values. Effective when combined with trend-following indicators.
+## McGinley Dynamic
 
----
+![McGinley Dynamic](images/mcginley-dynamic.png)
 
-### McGinley Dynamic
+A moving average that tunes its own speed to the market, hugging price without the usual whipsaws.
 
-**Purpose:** Adaptive moving average that adjusts smoothing based on market speed.
+Read it like a smarter moving average: above it is an uptrend, below it a downtrend, and it rarely gets left behind on fast moves.
 
-**Core Logic:** Uses a self-adjusting mechanism that modifies the smoothing factor based on the ratio of price to the previous indicator value. The formula incorporates a fourth-power adjustment: `mg[1] + (source - mg[1]) / (length * (source/mg[1])^4)`.
+| Setting | Default |
+| ------- | ------- |
+| Length  | 14      |
 
-**Key Parameters:**
-- **Length:** Period for calculation (default: 14, min: 1)
+Based on TradingView's built-in McGinley Dynamic indicator.
 
-![McGinley Dynamic](images/McGinley-Dynamic.png)
+## Relative Vigor Index
 
-**Typical Use Case:** Trend identification with reduced lag compared to traditional moving averages. Price crossing above/below the line signals potential trend changes. Overlay on price chart for dynamic support/resistance levels.
+![Relative Vigor Index](images/relative-vigor-index.png)
 
----
+Compares where each bar closes against where it opened, relative to its range, with a signal line alongside.
 
-### Relative Vigor Index
+In uptrends bars tend to close above their open. RVGI crossing over its signal line is bullish; crossing under is bearish.
 
-**Purpose:** Measures the conviction of a price trend by comparing close-open range to high-low range.
+| Setting | Default |
+| ------- | ------- |
+| Length  | 10      |
 
-**Core Logic:** Applies symmetrically weighted moving average (SWMA) to the difference between close-open and high-low values, then sums over the specified period. Generates a main line and signal line (SWMA of the main line).
+Based on TradingView's built-in Relative Vigor Index indicator.
 
-**Key Parameters:**
-- **Length:** Period for RVI calculation (default: 10, min: 1)
-- **Offset:** Display offset in bars (default: 0, range: -500 to 500)
+## Vortex Indicator
 
-![Relative Vigor Index](images/Relative-Vigor-Index.png)
+![Vortex Indicator](images/vortex-indicator.png)
 
-**Typical Use Case:** Confirming trend direction and spotting potential reversals. Crossovers between the RVI line and signal line generate trading signals. Most effective in trending markets.
+Two lines, VI+ and VI−, that measure upward and downward movement from one bar to the next.
 
----
+VI+ crossing above VI− starts an uptrend; the opposite cross starts a downtrend. The wider the gap, the stronger the move.
 
-### Vortex Indicator
+| Setting | Default |
+| ------- | ------- |
+| Length  | 14      |
 
-**Purpose:** Identifies trend initiation and measures trend strength using positive and negative vortex movements.
+Based on TradingView's built-in Vortex Indicator indicator.
 
-**Core Logic:** Calculates two directional movements: VI+ (upward vortex from high to prior low) and VI- (downward vortex from low to prior high). Each is normalized by the sum of true ranges over the period.
+## Woodies CCI
 
-**Key Parameters:**
-- **Length:** Look-back period for calculation (default: 14, min: 2)
+![Woodies CCI](images/woodies-cci.png)
 
-![Vortex Indicator](images/Vortex-Indicator.png)
+Two CCIs in one pane, a fast 6-bar turbo and a 14-bar main line, with zero and ±100 lines for Woodie's patterns.
 
-**Typical Use Case:** Detecting trend changes when VI+ crosses above VI- (bullish signal) or below (bearish signal). Strength of divergence between the lines indicates trend momentum.
+Trade on the side of zero the main line is on. The turbo line bouncing off zero inside that trend is the classic entry.
 
----
+| Setting      | Default |
+| ------------ | ------- |
+| Turbo length | 6       |
+| CCI length   | 14      |
 
-### Woodies CCI
+Based on TradingView's built-in Woodies CCI indicator.
 
-**Purpose:** Enhanced Commodity Channel Index implementation with dual timeframes and histogram visualization.
+## How to use
 
-**Core Logic:** Plots two CCI calculations simultaneously—a fast "turbo" CCI and a standard 14-period CCI. Histogram colors change based on whether the last five CCI 14 values are all positive (teal) or all negative (red).
-
-**Key Parameters:**
-- **CCI Turbo Length:** Fast CCI period (default: 6, range: 3-14)
-- **CCI 14 Length:** Standard CCI period (default: 14, range: 7-20)
-
-![Woodies CCI](images/Woodies-CCI.png)
-
-**Typical Use Case:** Identifying overbought/oversold conditions and trend direction. Values above +100 suggest bullish momentum, below -100 suggest bearish momentum. Zero-line crosses indicate potential trend changes.
-
----
-
-## How to Use
-
-1. Open TradingView and navigate to the Pine Editor
-2. Copy the desired indicator code from the `indicators/` folder
-3. Paste into a new Pine Editor tab
-4. Click "Add to Chart" to apply the indicator
-5. Adjust parameters through the indicator settings menu as needed
+1. Open the indicator's `.pine` file in `indicators/` and copy the code.
+2. In TradingView, open the Pine Editor, paste the code and save it.
+3. Click **Add to chart**, then change the defaults in the indicator's settings.
 
 ## Disclaimer
 
-These indicators are provided for educational purposes only. They are not financial advice. Past performance does not guarantee future results. Always conduct thorough analysis and risk management before making trading decisions.
+For learning and research. Indicators describe what price has done, not what it will do. Nothing here is financial advice.
+
+## License
+
+[MIT](LICENSE). Indicators based on someone else's work keep their original author's terms.
