@@ -1,0 +1,11 @@
+//@version=6
+indicator("Vortex Indicator", "VI", overlay = false, format = format.price, precision = 4, timeframe = "", timeframe_gaps = true)
+
+length = input.int(14, "Length", minval = 2)
+
+plusMovement = math.sum(math.abs(high - low[1]), length)
+minusMovement = math.sum(math.abs(low - high[1]), length)
+trueRange = math.sum(ta.atr(1), length)
+
+plot(plusMovement / trueRange, "VI +", #2962FF)
+plot(minusMovement / trueRange, "VI -", #E91E63)

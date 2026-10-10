@@ -1,0 +1,4 @@
+//@version=6
+indicator("Balance of Power", "BOP", overlay = false, format = format.price, precision = 2, timeframe = "", timeframe_gaps = true)
+
+plot((close - open) / (high - low), "BOP", color.red)

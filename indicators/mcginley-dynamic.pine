@@ -1,0 +1,10 @@
+//@version=6
+indicator("McGinley Dynamic", "MD", overlay = true, timeframe = "", timeframe_gaps = true)
+
+length = input.int(14, "Length", minval = 1)
+
+ema = ta.ema(close, length)
+mg = 0.0
+mg := na(mg[1]) ? ema : mg[1] + (close - mg[1]) / (length * math.pow(close / mg[1], 4))
+
+plot(mg, "McGinley Dynamic")
